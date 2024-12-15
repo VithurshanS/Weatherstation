@@ -38,6 +38,7 @@ counr = 0;
 
 app.post('/sensor-data', (req, res) => {
     const { temperature, humidity } = req.body;
+    //console.log(req.body);
 
     if (temperature == null || humidity == null) {
         res.status(400).send('Temperature and Humidity are required.');
@@ -58,15 +59,16 @@ app.post('/sensor-data', (req, res) => {
             res.status(500).send('Error inserting data into the database');
             return;
         }
-
-        console.log(`Data point inserted successfully!`);
+        counr++; // Increment the counter for each data point received.
+        console.log(counr,'Data inserted successfully!');
+        //console.log(`Data point inserted successfully!`);
         res.send('Data received successfully!');
     });
 });
 
 
 app.get('/weatherdata', (req, res) => {
-    const query = `SELECT * FROM weatherdata ORDER BY Time DESC LIMIT 25`;
+    const query = `SELECT * FROM weatherdata ORDER BY ID DESC LIMIT 25`;
 
     db.all(query, [], (err, rows) => {
         if (err) {
