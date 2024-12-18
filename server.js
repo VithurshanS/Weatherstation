@@ -1,10 +1,10 @@
 const express = require('express');
-//const mysql = require('mysql2');
+const mysql = require('mysql2');
 const cors = require('cors');
-//const db = require('./database')
+const db = require('./database')
 const bodyParser = require('body-parser');
-const sqlite3 = require('sqlite3').verbose();
-const db = new sqlite3.Database('./weatherdata.db');
+//const sqlite3 = require('sqlite3').verbose();
+//const db = new sqlite3.Database('./weatherdata.db');
 
 const app = express();
 const PORT = 3000;
@@ -53,7 +53,7 @@ app.post('/sensor-data', (req, res) => {
 
     const query = `INSERT INTO weatherdata (Date, Time, Tempreature, Humidity) VALUES (?, ?, ?, ?)`;
 
-    db.run(query, [localDate, localTime, temperature, humidity], function (err) {
+    db.query(query, [localDate, localTime, temperature, humidity], function (err) {
         if (err) {
             console.error('Error inserting data:', err.message);
             res.status(500).send('Error inserting data into the database');
@@ -70,7 +70,7 @@ app.post('/sensor-data', (req, res) => {
 app.get('/weatherdata', (req, res) => {
     const query = `SELECT * FROM weatherdata ORDER BY ID DESC`;
 
-    db.all(query, [], (err, rows) => {
+    db.query(query, (err, rows) => {
         if (err) {
             console.error('Error retrieving data:', err.message);
             res.status(500).send('Error retrieving data');
