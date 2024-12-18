@@ -47,8 +47,8 @@ app.post('/sensor-data', (req, res) => {
 
     // Get the local date and time
     const currentDate = new Date();
-    const localDate = currentDate.toISOString().slice(0, 10); // YYYY-MM-DD
-    const localTime = currentDate.toTimeString().slice(0, 8); // HH:MM:SS
+    const localDate = currentDate.toISOString().slice(0, 10);
+    const localTime = currentDate.toTimeString().slice(0, 8);
     console.log(`Temperature: ${temperature}°C, Humidity: ${humidity}%, Time: ${localTime}`);
 
     const query = `INSERT INTO weatherdata (Date, Time, Tempreature, Humidity) VALUES (?, ?, ?, ?)`;
@@ -68,7 +68,7 @@ app.post('/sensor-data', (req, res) => {
 
 
 app.get('/weatherdata', (req, res) => {
-    const query = `SELECT * FROM weatherdata ORDER BY ID DESC LIMIT 25`;
+    const query = `SELECT * FROM weatherdata ORDER BY ID DESC`;
 
     db.all(query, [], (err, rows) => {
         if (err) {

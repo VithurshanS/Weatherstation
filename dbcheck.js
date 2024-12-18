@@ -1,7 +1,7 @@
 const sqlite3 = require('sqlite3').verbose();
 const db = new sqlite3.Database('./weatherdata.db');
 
-const query = `SELECT * FROM weatherdata ORDER BY Time DESC LIMIT 25`;
+const query = `SELECT AVG(Humidity),AVG(Tempreature) FROM weatherdata group by date`;
 
 db.all(query, [], (err, rows) => {
     if (err) {
