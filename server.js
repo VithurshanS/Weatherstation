@@ -47,8 +47,25 @@ app.post('/sensor-data', (req, res) => {
 
     // Get the local date and time
     const currentDate = new Date();
-    const localDate = currentDate.toISOString().slice(0, 10);
-    const localTime = currentDate.toTimeString().slice(0, 8);
+
+    // Format date for Sri Lanka
+    const sriLankaDate = new Intl.DateTimeFormat('en-US', {
+        timeZone: 'Asia/Colombo',
+        year: 'numeric',
+        month: '2-digit',
+        day: '2-digit',
+    }).format(currentDate);
+
+    // Format time for Sri Lanka
+    const sriLankaTime = new Intl.DateTimeFormat('en-US', {
+        timeZone: 'Asia/Colombo',
+        hour: '2-digit',
+        minute: '2-digit',
+        second: '2-digit',
+        hour12: false,
+    }).format(currentDate);
+    const localDate = sriLankaDate.toISOString();
+    const localTime = sriLankaTime.toTimeString();
     console.log(`Temperature: ${temperature}°C, Humidity: ${humidity}%, Time: ${localTime}`);
 
     const query = `INSERT INTO weatherdata (Date, Time, Tempreature, Humidity) VALUES (?, ?, ?, ?)`;
