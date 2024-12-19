@@ -58,7 +58,7 @@ app.post('/sensor-data', (req, res) => {
 
 // Endpoint to retrieve weather data
 app.get('/weatherdata', (req, res) => {
-    const query = `SELECT * FROM weatherdata ORDER BY ID DESC`;
+    const query = `SELECT * FROM weatherdata ORDER BY ID DESC LIMIT 25`;
 
     db.query(query, (err, rows) => {
         if (err) {
